@@ -1,0 +1,109 @@
+Business Source License 1.1
+
+Parameters
+
+Licensor:             Pratyush Dave
+Licensed Work:        AQRTINet
+                      The Licensed Work is (c) 2026 Pratyush Dave
+Additional Use Grant: None
+Change Date:          2030-01-01
+Change License:       Apache License, Version 2.0
+
+For information about alternative licensing arrangements for the Licensed Work,
+please contact: pratyushdave80@gmail.com
+
+---
+
+Business Source License 1.1
+
+License text copyright (c) 2017 MariaDB Corporation Ab, All Rights Reserved.
+"Business Source License" is a trademark of MariaDB Corporation Ab.
+
+Parameters
+
+Licensor:             The person or entity that is making the Licensed Work available.
+
+Licensed Work:        The work made available under this License, as indicated by a
+                      copyright notice that is included in or attached to the work.
+
+Additional Use Grant: Other than the rights specifically granted below, Licensor
+                      makes the Licensed Work available under a "Business Source
+                      License" (this document), which is a source-available
+                      non-production license.
+
+Change Date:          The date four (4) years after the first publicly available
+                      distribution of a specific version of the Licensed Work under
+                      this License.
+
+Change License:       The open source license designated above in the Parameters.
+
+Notice
+
+The Business Source License (this document, or the "License") is not an Open
+Source license. However, the Licensed Work will eventually be made available
+under an Open Source License, as stated in this License.
+
+License Grant
+
+Subject to the terms and conditions of this License, the Licensor hereby grants
+you the right to copy, modify, create derivative works, redistribute, and make
+non-production use of the Licensed Work. The Licensor may make an Additional Use
+Grant, above, permitting limited production use.
+
+Effective on the Change Date, or the fourth anniversary of the first publicly
+available distribution of a specific version of the Licensed Work under this
+License, whichever comes first, the Licensor hereby grants you rights under the
+terms of the Change License, and these rights are irrevocable subject to
+compliance with the Change License terms.
+
+Covenants of Licensor
+
+In consideration of the right to use this License's text and the "Business Source
+License" name and trademark, Licensor covenants to MariaDB, and to all other
+recipients of the licensed work to be provided by Licensor:
+
+1. To specify as the Change License the GPL Version 2.0 or any later version, or
+   a license that is compatible with GPL Version 2.0 or a later version, where
+   "compatible" means that software provided under the Change License can be
+   included in a program with software provided under GPL Version 2.0 or a later
+   version. Licensor may specify additional Change Licenses as alternatives, as
+   long as one of the original Change Licenses remains.
+
+2. To either: (a) specify an additional grant of rights to use that does not
+   impose any additional restriction on the right granted in this License, as the
+   Additional Use Grant; or (b) insert the text "None".
+
+3. To specify a Change Date.
+
+4. Not to modify this License in any other way.
+
+Patent Claims
+
+If the Licensor makes a patent claim against a third party for using the Licensed
+Work, the rights under this License are immediately terminated.
+
+Notice
+
+The Licensed Work is provided "as is" without warranty of any kind, express or
+implied, including without limitation the warranties of merchantability, fitness
+for a particular purpose, and noninfringement. In no event will the authors or
+copyright holders be liable for any claim, damages, or other liability, whether in
+an action of contract, tort, or otherwise, arising from, out of, or in connection
+with the Licensed Work or the use or other dealings in the Licensed Work.
+
+---
+
+COMMERCIAL USE RESTRICTION
+
+You may NOT use the Licensed Work or any derivative thereof in production,
+commercial, or revenue-generating applications without a separate commercial
+license from the Licensor (pratyushdave80@gmail.com). This includes but is
+not limited to:
+
+- Algorithmic trading systems in live operation
+- Financial advisory products or services
+- SaaS or API services built on this model
+- Any system that generates revenue, directly or indirectly
+
+The above restriction expires on the Change Date (2030-01-01) at which point
+the Licensed Work is re-licensed under Apache License 2.0.
