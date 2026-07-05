@@ -92,8 +92,6 @@ The table above is the full 3-year benchmark. A second, faster comparison was al
 
 Full system-level context, including the honest-metrics gate that this model's outputs must pass before any strategy built on it is allowed to go live, lives in the [main AQRTI repository](https://github.com/UrMacroGuy/Project-AQRTI).
 
-> **Screenshots:** dashboard views of AQRTINet's live calibration curve and walk-forward accuracy (AQRTI's "Model Center" page) will be added here once the current v4.0 validation cycle closes. This project treats "trust me" screenshots as worse than no screenshot — see [Hard Rules](#a-note-on-honesty) below for why an image doesn't replace an evidence trail.
-
 ---
 
 ## Architecture
