@@ -9,6 +9,16 @@
 
 ---
 
+> **Version note (2026-07-05):** this README describes an earlier snapshot
+> of the architecture (5-fold stacking, 42 features, 6 interaction
+> features). The version running inside AQRTI today is v3.1: 7-fold
+> stacking, 5-fold Platt calibration (3-fold below 500 samples), 9
+> interaction features (6 original + 3 new), 252-day temporal decay
+> half-life, and 0.3× down-weighting of ambiguous-direction training rows.
+> The core five innovations below are still accurate in spirit — the
+> specific fold counts and feature counts have moved on since this public
+> snapshot was written.
+
 ## What is AQRTINet?
 
 AQRTINet is a **gradient-boosted ensemble** designed specifically for predicting 5-day stock direction (UP / DOWN) on NSE and BSE equities. It is not a neural network, not a transformer, and not a fine-tuned LLM. It is a carefully engineered decision-tree ensemble that encodes domain knowledge about how financial markets actually behave.
@@ -313,7 +323,7 @@ AQRTINet(
 
 ## Performance on NSE Universe (Internal Benchmarks)
 
-Tested on 640+ NSE/BSE symbols, 3-year walk-forward validation (2023–2026):
+Tested on the backtest-eligible NSE/BSE universe (see the main AQRTI project's docs for how this count is defined and its current value — it has changed since this benchmark was run), 3-year walk-forward validation (2023–2026):
 
 | Model | Accuracy | AUC-ROC | Precision | Training Time |
 |-------|----------|---------|-----------|---------------|
@@ -394,7 +404,7 @@ AQRTINet is the ML core of **AQRTI** — an Autonomous Quantitative Research and
 AQRTI runs continuously on desktop hardware (AMD Ryzen AI 7 350, 16GB RAM, no GPU) and performs:
 - **Automated feature engineering** from 640+ NSE/BSE symbols and 5 years of price history
 - **Walk-forward ML training** with rolling regime-aware datasets
-- **Autonomous strategy generation** via a genetic/evolutionary arena (7,600+ strategies in pool)
+- **Autonomous strategy generation** via a genetic/evolutionary arena (population size varies as evolution runs and gates tighten/loosen — see the main AQRTI project's dashboard for the current count, not a number frozen here)
 - **Paper trading simulation** to validate strategies before promotion
 - **Self-learning loop** — the system detects its own prediction failures, retrains models, and adjusts confidence thresholds automatically
 
