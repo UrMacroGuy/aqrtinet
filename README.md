@@ -1,18 +1,23 @@
 # AQRTINet
 
-A gradient-boosted ensemble for 5-day stock direction prediction on NSE/BSE equities, designed for use in autonomous trading systems.
+A gradient-boosted ensemble for 5-day stock direction prediction on NSE/BSE equities — an applied research project exploring whether trading-domain-specific structure (regime experts, asymmetric loss, cross-sectional ranking) can beat off-the-shelf gradient boosters on real market data.
 
 [![License: BUSL-1.1](https://img.shields.io/badge/License-BUSL--1.1-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-green.svg)](https://python.org)
 [![scikit-learn 1.9+](https://img.shields.io/badge/sklearn-1.9%2B-orange.svg)](https://scikit-learn.org)
 [![CPU Only](https://img.shields.io/badge/Training-CPU%20Only-lightgrey.svg)]()
 [![Tests](https://img.shields.io/badge/tests-10%2B%20passing-brightgreen.svg)](tests/test_aqrtinet.py)
+[![Status: Research](https://img.shields.io/badge/Status-Research%20%2F%20Case%20Study-yellow.svg)]()
 
-**[Overview](#overview)** · **[Benchmarks](#benchmarks)** · **[Architecture](#architecture)** · **[Design details](#design-details)** · **[Quick start](#quick-start)** · **[License](#license)**
+**[Overview](#overview)** · **[Status](#status)** · **[Benchmarks](#benchmarks)** · **[Architecture](#architecture)** · **[Design details](#design-details)** · **[Quick start](#quick-start)** · **[License](#license)**
 
 ---
 
-> **Version note:** this repository contains the public v1 snapshot (5-fold stacking, 42 features). A more advanced internal version is used in production and will be published here once it has completed further validation. The five core design principles below apply to both versions.
+## Status
+
+**This is a research project and case study, not an actively-maintained production model.** [AQRTI](https://github.com/UrMacroGuy/Project-AQRTI), the trading intelligence platform this was built for, now runs plain **CatBoost** in production — it consistently matched or beat AQRTINet on accuracy/AUC-ROC at a fraction of the training cost (see [Benchmarks](#benchmarks)), and a single well-understood model is easier to trust for real capital than a more complex one that doesn't clearly win.
+
+That outcome is itself the useful finding: five plausible trading-domain improvements over a stock gradient booster, honestly measured, mostly didn't pay for their added complexity — and one of them (regime routing) had a real bug for months before an evaluation harness fix surfaced it. Both the wins and the negative results are documented below, code included, in case they save someone else the time.
 
 ---
 
@@ -53,7 +58,17 @@ Raw accuracy near 50% is expected for this task — 5-day equity direction on li
 | NGBoost | 3.3s | 54.0% | 0.522 | 0.613 | 59.8% | 62.9% |
 | AQRTINet | 81.8s | 45.2% | 0.645 | 0.210 | 63.5% | 12.6% |
 
-On this run, AQRTINet underperformed CatBoost on accuracy and F1. The sample (5,000 recent rows) contained only one market regime (BULL), meaning three of AQRTINet's four regime experts were never exercised, and its default decision threshold was not well calibrated for this slice. Its AUC-ROC remained the highest of the three, indicating the underlying ranking was still sound. Threshold recalibration and a larger, multi-regime sample are the next steps before drawing further conclusions from this comparison.
+On this run, AQRTINet underperformed CatBoost on accuracy and F1. The sample (5,000 recent rows) contained only one market regime (BULL), meaning three of AQRTINet's four regime experts were never exercised, and its default decision threshold was not well calibrated for this slice. Its AUC-ROC remained the highest of the three, indicating the underlying ranking was still sound.
+
+### Postmortem: two real bugs the benchmarks above were hiding
+
+Following up on the threshold-calibration note above surfaced two structural bugs in the evaluation path — worth documenting since they're a good example of how a model can look worse (or falsely better) than it actually is for reasons that have nothing to do with its architecture:
+
+**1. Regime mis-routing during historical evaluation.** `predict()`/`predict_proba()` routed every row in a batch to whichever regime was "current" in the database *right now*, rather than the regime that was actually in effect on each row's historical date. That's correct for live single-day inference (there's only one "today"), but wrong for a backtest spanning years of dates across all four regimes — nearly every row got scored by the wrong specialist expert using the wrong decision threshold. Fixed by threading per-row dates through inference so historical evaluation can look up each row's regime from the same map used at training time, falling back to "current regime" only when no dates are supplied.
+
+**2. A decision-threshold selector that could pick a degenerate cutoff.** The per-regime F1-optimal threshold sweep maximized plain F1, which — on a positive-majority label — is maximized by a threshold that calls almost every row "UP" (high recall, mediocre precision, near-zero real discrimination). After the routing fix above, exactly this happened: 100% recall on a 61%-positive test set, which is barely better than always guessing the majority class. Fixed by switching the sweep to balanced accuracy and explicitly rejecting any threshold where fewer than 2% or more than 98% of predictions land in one class.
+
+Neither bug was in the core ideas (regime experts, percentile ranking, stacking) — both were in the plumbing around them. It's a reminder that an evaluation harness bug and a real architectural weakness produce the same symptom (worse benchmark numbers), and it's worth ruling out the former before concluding the latter.
 
 ---
 
@@ -321,7 +336,8 @@ aqrtinet/
 
 ## Roadmap
 
-- [ ] Publish the current production version once it clears additional validation
+Not under active development — this repo is preserved as a research reference, not a live project. If you fork it, ideas worth exploring:
+
 - [ ] `TemporalPercentileRanker` — ranks within a rolling window rather than the full training distribution
 - [ ] Regime auto-detection from price data
 - [ ] Sector-aware stacking
